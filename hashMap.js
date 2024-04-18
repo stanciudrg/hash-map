@@ -126,4 +126,17 @@ export default class HashMap {
     this.#buckets = new Array(16);
     this.#capacity = 0;
   }
+
+  // Returns an array containing all the keys in the hash map
+  keys() {
+    const keys = [];
+
+    this.#buckets.forEach((bucket) => {
+      bucket.toArray().forEach((item) => {
+        keys.push(item.key);
+      });
+    });
+
+    return keys;
+  }
 }
