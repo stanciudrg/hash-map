@@ -66,18 +66,28 @@ export default class HashMap {
     this.#buckets[index].append({ key: pureKey, value });
   }
 
-    // Returns the key / value pair for 'key', otherwise returns null
-    get(key) {
-      const pureKey = typeof key === "string" ? key.trim() : key;
-      const index = this.#hash(pureKey);
-      if (!index) return null;
-      const bucket = this.#buckets[index];
-  
-      if (bucket) {
-        const keyMatch = bucket.get(pureKey);
-        if (keyMatch) return keyMatch.data;
-      }
-  
-      return null;
+  // Returns the key / value pair for 'key', otherwise returns null
+  get(key) {
+    const pureKey = typeof key === "string" ? key.trim() : key;
+    const index = this.#hash(pureKey);
+    if (!index) return null;
+    const bucket = this.#buckets[index];
+
+    if (bucket) {
+      const keyMatch = bucket.get(pureKey);
+      if (keyMatch) return keyMatch.data;
     }
+
+    return null;
+  }
+
+  // Returns true or false based on whether or not the 'key' is in the hash map
+  has(key) {
+    const pureKey = typeof key === "string" ? key.trim() : key;
+    const index = this.#hash(pureKey);
+    if (!index) return false;
+    const bucket = this.#buckets[index];
+    const hasKey = bucket ? bucket.contains(pureKey) : false;
+    return hasKey;
+  }
 }
