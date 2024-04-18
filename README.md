@@ -1,5 +1,5 @@
 # hash-map
-Utility class for creating a HashMap data structure with various methods.
+Utility class for creating a HashMap data structure.
 
 - Uses the hash function created by bryc & Yves M. on Stack Overflow: https://stackoverflow.com/questions/7616461/generate-a-hash-from-string-in-javascript
 - Automatically resizes itself based on its loadFactor and capacity.
