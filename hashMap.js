@@ -90,4 +90,25 @@ export default class HashMap {
     const hasKey = bucket ? bucket.contains(pureKey) : false;
     return hasKey;
   }
+
+  // Creates a hash code from 'key' ->
+  // Uses the hash code as index to access the buckets array ->
+  // if the index holds a LinkedList, it attempts to find and remove the key inside it ->
+  // if the key was found and removed, it checks if the LinkedList is empty ->
+  // if LinkedList is empty, it deletes the index, reduces the capacity, and checks
+  // if the buckets array needs to be resized
+  remove(key) {
+    const pureKey = typeof key === "string" ? key.trim() : key;
+    const index = this.#hash(pureKey);
+    if (!this.#buckets[index]) return false;
+    const removed = this.#buckets[index].findAndRemove(pureKey);
+    if (!removed) return false;
+
+    if (this.#buckets[index].getHead() === null) {
+      delete this.#buckets[index];
+      this.#capacity -= 1;
+    }
+
+    return true;
+  }
 }
