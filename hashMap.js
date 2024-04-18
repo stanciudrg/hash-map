@@ -111,4 +111,13 @@ export default class HashMap {
 
     return true;
   }
+
+  // Returns the number of keys stored in the hash map by looping
+  // through all LinkedLists and calling their size() method that returns
+  // the number of Nodes they contain (see linkedList.js module)
+  length() {
+    let totalKeys = 0;
+    this.#buckets.forEach((item) => (totalKeys += item.size()));
+    return totalKeys;
+  }
 }
