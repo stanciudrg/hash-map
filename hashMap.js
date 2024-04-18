@@ -152,4 +152,17 @@ export default class HashMap {
 
     return values;
   }
+
+  // Returns an array containing all the key / values pairs in the hash map
+  entries() {
+    const entries = [];
+
+    this.#buckets.forEach((bucket) => {
+      bucket.toArray().forEach((item) => {
+        entries.push(item);
+      });
+    });
+
+    return entries;
+  }
 }
