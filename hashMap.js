@@ -120,4 +120,10 @@ export default class HashMap {
     this.#buckets.forEach((item) => (totalKeys += item.size()));
     return totalKeys;
   }
+
+  // Removes all entries in the hash map
+  clear() {
+    this.#buckets = new Array(16);
+    this.#capacity = 0;
+  }
 }
