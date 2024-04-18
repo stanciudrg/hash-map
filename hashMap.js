@@ -65,4 +65,19 @@ export default class HashMap {
     // Otherwise add the key / value pair as a Node on the LinkedList inside the bucket
     this.#buckets[index].append({ key: pureKey, value });
   }
+
+    // Returns the key / value pair for 'key', otherwise returns null
+    get(key) {
+      const pureKey = typeof key === "string" ? key.trim() : key;
+      const index = this.#hash(pureKey);
+      if (!index) return null;
+      const bucket = this.#buckets[index];
+  
+      if (bucket) {
+        const keyMatch = bucket.get(pureKey);
+        if (keyMatch) return keyMatch.data;
+      }
+  
+      return null;
+    }
 }
