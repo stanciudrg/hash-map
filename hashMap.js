@@ -1,4 +1,5 @@
-class HashMap {
+import LinkedList from "./linkedList";
+export default class HashMap {
   #minSize = 16;
   #capacity = 0;
   #loadFactor = 0.75;
