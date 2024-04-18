@@ -36,4 +36,33 @@ export default class HashMap {
     // of bounds
     return (4294967296 * (2097151 & h2) + (h1 >>> 0)) % this.#buckets.length;
   }
+
+  // Creates a hash code from 'key' ->
+  // Uses the hash code as index to access the buckets array ->
+  // Checks if the index already holds a LinkedList ->
+  // if false, creates a new LinkedList and adds into it the key / value pair
+  // if true, checks if the LinkedList already holds the key / value pair ->
+  //// if true, updates the value
+  //// if false, adds the key / value
+  set(key, value) {
+    const pureKey = typeof key === "string" ? key.trim() : key;
+    const index = this.#hash(pureKey);
+    if (!index) return;
+    // Capture the current capacity prior to adding the key
+    const oldCapacity = this.#capacity;
+
+    if (!this.#buckets[index]) {
+      // Create a linear LinkedList data structure to store this key and other keys
+      // that share this index. Reduces collisions.
+      this.#buckets[index] = new LinkedList();
+      this.#capacity += 1;
+    }
+
+    // If the LinkedList inside this bucket already has the key,
+    // update the key's value...
+    const location = this.#buckets[index].get(pureKey);
+    if (location) return (location.data.value = value);
+    // Otherwise add the key / value pair as a Node on the LinkedList inside the bucket
+    this.#buckets[index].append({ key: pureKey, value });
+  }
 }
