@@ -189,4 +189,19 @@ export default class HashMap {
 
     this.#resizing = false;
   }
+
+  // Determines whether the buckets array size needs to be increased
+  // or decreased based on the loadFactor and the current capacity
+  #checkCapacity() {
+    const bucketsLength = this.#buckets.length;
+
+    if (this.#capacity / bucketsLength >= this.#loadFactor) {
+      this.#changeSize(new Array(bucketsLength * 2));
+    } else if (
+      bucketsLength > this.#minSize &&
+      this.#capacity / (bucketsLength / 2) < this.#loadFactor
+    ) {
+      this.#changeSize(new Array(bucketsLength / 2));
+    }
+  }
 }
