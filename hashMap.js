@@ -139,4 +139,17 @@ export default class HashMap {
 
     return keys;
   }
+
+  // Returns an array containing all the values in the hash map
+  values() {
+    const values = [];
+
+    this.#buckets.forEach((bucket) => {
+      bucket.toArray().forEach((item) => {
+        if (item.value) values.push(item.value);
+      });
+    });
+
+    return values;
+  }
 }
