@@ -1,5 +1,6 @@
-import LinkedList from "./linkedList";
-export default class HashMap {
+import LinkedList from "./linkedList.js";
+
+class HashMap {
   #minSize = 16;
   #capacity = 0;
   #loadFactor = 0.75;
@@ -64,6 +65,10 @@ export default class HashMap {
     if (location) return (location.data.value = value);
     // Otherwise add the key / value pair as a Node on the LinkedList inside the bucket
     this.#buckets[index].append({ key: pureKey, value });
+
+    // Check if the buckets array needs to be resized if a previously empty
+    // bucket has been filled with a new LinkedList
+    if (this.#capacity > oldCapacity && !this.#resizing) this.#checkCapacity();
   }
 
   // Returns the key / value pair for 'key', otherwise returns null
@@ -107,6 +112,7 @@ export default class HashMap {
     if (this.#buckets[index].getHead() === null) {
       delete this.#buckets[index];
       this.#capacity -= 1;
+      this.#checkCapacity();
     }
 
     return true;
