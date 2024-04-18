@@ -165,4 +165,28 @@ export default class HashMap {
 
     return entries;
   }
+
+  // Creates a copy of all the key / value pairs that are stored in the hash map ->
+  // Replaces the current buckets array with a new array of a different size (newBuckets) ->
+  // Resets the capacity ->
+  // Activates the #resizing flag to prevent stack overflow when calling set(key, value),
+  // that in turn calls checkCapacity(), that in turn calls this function ->
+  // Passes the key / value pairs that were held by the old buckets array into the set(key, value)
+  // method to be added into the new buckets array.
+  // !! Calling set(key, value) instead of directly copying the key / value pairs into the new buckets
+  // array is necessary, since the hash(key) method called by set(key, value) uses the size of the buckets
+  // array to provide a hash number that does not exceed the length of the buckets array
+  // See hash(key) method for more info
+  #changeSize(newBuckets) {
+    const entries = this.entries();
+    this.#buckets = newBuckets;
+    this.#capacity = 0;
+    this.#resizing = true;
+
+    entries.forEach((item) => {
+      this.set(item.key, item.value);
+    });
+
+    this.#resizing = false;
+  }
 }
